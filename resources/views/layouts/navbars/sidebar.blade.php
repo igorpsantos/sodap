@@ -72,7 +72,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
+                    <a class="nav-link" href="{{ route('simulador.create') }}">
                         <i class="ni ni-controller text-primary"></i> {{ __('Simulador') }}
                     </a>
                 </li>

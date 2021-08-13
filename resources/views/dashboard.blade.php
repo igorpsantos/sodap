@@ -63,6 +63,44 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xl-6 mt-3">
+                <div class="card shadow">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">Exemplo grafico</h6>
+                                <h2 class="mb-0">Total de testes</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Chart -->
+                        <div class="chart">
+                            <canvas id="myChartBars"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 mt-3">
+                <div class="card shadow">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-muted ls-1 mb-1">Exemplo grafico</h6>
+                                <h2 class="mb-0">Total de testes</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Chart -->
+                        <div class="chart">
+                            <canvas id="chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         @include('layouts.footers.auth')
     </div>
 @endsection
@@ -70,4 +108,54 @@
 @push('js')
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.min.js"></script>
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
+    <script>
+        // setup
+        const labels = ['t5', 't4', 't3', 't2', 't1'];
+        const data = {
+            labels: labels,
+            datasets: [{
+                axis: 'y',
+                label: 'My First Dataset',
+                data: [{x:12, y:12}, {x:11, y:11}, {x:7, y:7}, {x:5, y:5}, {x:1, y:1}],
+                fill: false,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        };
+        // config
+        const config = {
+            type: 'horizontalBar',
+            data,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+        // render
+        const myChart = new Chart(
+            document.getElementById('myChartBars'),
+            config
+        );
+    </script>
 @endpush

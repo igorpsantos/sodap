@@ -44,5 +44,8 @@
         
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
+
+        <!-- Chart Js 3.4 -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </body>
 </html>
