@@ -110,7 +110,7 @@
     <script src="{{ asset('argon') }}/vendor/chart.js/dist/Chart.extension.js"></script>
     <script>
         // setup
-        const labels = ['t5', 't4', 't3', 't2', 't1'];
+        const labels = ['t5', 't4', 't3', 't2', 't1'];        
         const data = {
             labels: labels,
             datasets: [{
