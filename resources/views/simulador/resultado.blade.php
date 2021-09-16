@@ -2,8 +2,8 @@
 
 @section('content')
     @include('layouts.headers.cards')
-    <div class="container-fluid mt--7">
-        <div class="row">
+    <div class="container-fluid mt--7 bg-gradient-default">
+        <div class="row justify-content-center mb-5">
             <div class="col-xl-8 order-xl-1">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 order-xl-1">
+            <div class="col-xl-8 order-xl-1 mt-3">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
                         <div class="row align-items-center">
@@ -44,7 +44,7 @@
                         <table class="table table-bordered table-responsive">
                             <thead>
                                 @php
-                                    arsort($processosBySortAsc)
+                                    krsort($processosBySortAsc)
                                 @endphp
                                 <tr>
                                     @foreach ($processosBySortAsc as $key => $item)
@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center mb-5">
             <div class="col-xl-10 order-xl-1">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-xl-10 order-xl-1">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">

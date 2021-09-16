@@ -9,7 +9,7 @@
             <img src="{{ asset('argon') }}/img/logo.jpg" class="navbar-brand-img" alt="Logo sodap">
         </a>
         <!-- User -->
-        <ul class="nav align-items-center d-md-none">
+        {{-- <ul class="nav align-items-center d-md-none">
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
@@ -22,19 +22,19 @@
                     <div class=" dropdown-header noti-title">
                         <h6 class="text-overflow m-0">{{ __('Bem vindo!') }}</h6>
                     </div>
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                    <a href="#" class="dropdown-item">
                         <i class="ni ni-single-02"></i>
                         <span>{{ __('Meu Perfil') }}</span>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
+                    <a href="#" class="dropdown-item" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                         <i class="ni ni-user-run"></i>
                         <span>{{ __('Sair') }}</span>
                     </a>
                 </div>
             </li>
-        </ul>
+        </ul> --}}
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
             <!-- Collapse header -->
@@ -53,18 +53,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Form -->
-            {{-- <form class="mt-4 mb-3 d-md-none">
-                <div class="input-group input-group-rounded input-group-merge">
-                    <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="{{ __('Search') }}" aria-label="Search">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <span class="fa fa-search"></span>
-                        </div>
-                    </div>
-                </div>
-            </form> --}}
-            <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
@@ -75,12 +63,7 @@
                     <a class="nav-link" href="{{ route('simulador.create') }}">
                         <i class="ni ni-controller text-primary"></i> {{ __('Simulador') }}
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-chart-bar-32 text-primary"></i> {{ __('Relatórios') }}
-                    </a>
-                </li>                  
+                </li>             
             </ul>
         </div>
     </div>

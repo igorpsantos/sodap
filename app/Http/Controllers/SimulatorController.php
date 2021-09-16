@@ -104,40 +104,40 @@ class SimulatorController extends Controller
             $count++;
         }
 
-        $diagramaTempo['t3'] = [
-            'quantidade_td' => $processosBySortAsc['t3']['tempo_duracao'],
-            'tempo_ingresso' => $processosBySortAsc['t3']['tempo_ingresso'],
-            'tempo_inicio' => $processosBySortAsc['t3']['tempo_ingresso'],
-            'tempo_fim' => $processosBySortAsc['t3']['tempo_duracao'] + $processosBySortAsc['t3']['tempo_ingresso']
-        ];
+        // $diagramaTempo['t3'] = [
+        //     'quantidade_td' => $processosBySortAsc['t3']['tempo_duracao'],
+        //     'tempo_ingresso' => $processosBySortAsc['t3']['tempo_ingresso'],
+        //     'tempo_inicio' => $processosBySortAsc['t3']['tempo_ingresso'],
+        //     'tempo_fim' => $processosBySortAsc['t3']['tempo_duracao'] + $processosBySortAsc['t3']['tempo_ingresso']
+        // ];
 
-        $diagramaTempo['t1'] = [
-            'quantidade_td' => $processosBySortAsc['t1']['tempo_duracao'],
-            'tempo_ingresso' => $processosBySortAsc['t1']['tempo_ingresso'],
-            'tempo_inicio' => $diagramaTempo['t3']['tempo_fim'],
-            'tempo_fim' => $processosBySortAsc['t1']['tempo_duracao'] + $diagramaTempo['t3']['tempo_fim']
-        ];
+        // $diagramaTempo['t1'] = [
+        //     'quantidade_td' => $processosBySortAsc['t1']['tempo_duracao'],
+        //     'tempo_ingresso' => $processosBySortAsc['t1']['tempo_ingresso'],
+        //     'tempo_inicio' => $diagramaTempo['t3']['tempo_fim'],
+        //     'tempo_fim' => $processosBySortAsc['t1']['tempo_duracao'] + $diagramaTempo['t3']['tempo_fim']
+        // ];
 
-        $diagramaTempo['t2'] = [
-            'quantidade_td' => $processosBySortAsc['t2']['tempo_duracao'],
-            'tempo_ingresso' => $processosBySortAsc['t2']['tempo_ingresso'],
-            'tempo_inicio' => $diagramaTempo['t1']['tempo_fim'],
-            'tempo_fim' => $processosBySortAsc['t2']['tempo_duracao'] + $diagramaTempo['t1']['tempo_fim']
-        ];
+        // $diagramaTempo['t2'] = [
+        //     'quantidade_td' => $processosBySortAsc['t2']['tempo_duracao'],
+        //     'tempo_ingresso' => $processosBySortAsc['t2']['tempo_ingresso'],
+        //     'tempo_inicio' => $diagramaTempo['t1']['tempo_fim'],
+        //     'tempo_fim' => $processosBySortAsc['t2']['tempo_duracao'] + $diagramaTempo['t1']['tempo_fim']
+        // ];
 
-        $diagramaTempo['t0'] = [
-            'quantidade_td' => $processosBySortAsc['t0']['tempo_duracao'],
-            'tempo_ingresso' => $processosBySortAsc['t0']['tempo_ingresso'],
-            'tempo_inicio' => $diagramaTempo['t2']['tempo_fim'],
-            'tempo_fim' => $processosBySortAsc['t0']['tempo_duracao'] + $diagramaTempo['t2']['tempo_fim']
-        ];
+        // $diagramaTempo['t0'] = [
+        //     'quantidade_td' => $processosBySortAsc['t0']['tempo_duracao'],
+        //     'tempo_ingresso' => $processosBySortAsc['t0']['tempo_ingresso'],
+        //     'tempo_inicio' => $diagramaTempo['t2']['tempo_fim'],
+        //     'tempo_fim' => $processosBySortAsc['t0']['tempo_duracao'] + $diagramaTempo['t2']['tempo_fim']
+        // ];
 
-        $diagramaTempo['t4'] = [
-            'quantidade_td' => $processosBySortAsc['t4']['tempo_duracao'],
-            'tempo_ingresso' => $processosBySortAsc['t4']['tempo_ingresso'],
-            'tempo_inicio' => $diagramaTempo['t0']['tempo_fim'],
-            'tempo_fim' => $processosBySortAsc['t4']['tempo_duracao'] + $diagramaTempo['t0']['tempo_fim']
-        ];
+        // $diagramaTempo['t4'] = [
+        //     'quantidade_td' => $processosBySortAsc['t4']['tempo_duracao'],
+        //     'tempo_ingresso' => $processosBySortAsc['t4']['tempo_ingresso'],
+        //     'tempo_inicio' => $diagramaTempo['t0']['tempo_fim'],
+        //     'tempo_fim' => $processosBySortAsc['t4']['tempo_duracao'] + $diagramaTempo['t0']['tempo_fim']
+        // ];
 
         $data['processosBySortAsc'] = $processosBySortAsc;
         $data['diagramaTempo'] = $diagramaTempo;
