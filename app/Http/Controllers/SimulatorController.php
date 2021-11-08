@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use PDF;
 
 class SimulatorController extends Controller
 {
@@ -29,14 +30,15 @@ class SimulatorController extends Controller
             'RR',
             'SJF',
             'SRTF',
-            'PRIOc'
+            'PRIOc',
+            'PRIOp'
         ];
         $tipo_algoritmo = '';
 
         if($request->has('numero_processos') && $request->numero_processos > 0){
             $numeroProcessos = (int) $request->numero_processos;
         }
-        if($request->has('tipo_algoritmo') && in_array($request->tipo_algoritmo, ['FIFO','RR','SJF','SRTF', 'PRIOc'])){
+        if($request->has('tipo_algoritmo') && in_array($request->tipo_algoritmo, ['FIFO','RR','SJF','SRTF', 'PRIOc', 'PRIOp'])){
             $tipo_algoritmo = $request->tipo_algoritmo;
         }
 
@@ -63,7 +65,7 @@ class SimulatorController extends Controller
         for($i = 0; $i < $data["numeroProcessos"]; $i++){
             $data["tempo_ingresso_" . $i] = $request['tempo_ingresso_' . $i];
             $data["tempo_duracao_" . $i] = $request['tempo_duracao_' . $i];
-            if($request->tipo_algoritmo == 'PRIOc'){
+            if(in_array($request->tipo_algoritmo, ['PRIOc', 'PRIOp'])){
                 $data["prioridade_processo_" . $i] = $request['prioridade_processo_' . $i];
             }
         }
@@ -85,7 +87,7 @@ class SimulatorController extends Controller
                 $data['processos'][$i]["tempo_duracao"] = $request['tempo_duracao_' . $i];
                 $data['processos'][$i]["tempo_ingresso"] = $request['tempo_ingresso_' . $i];
             }
-        }elseif($data["tipo_algoritmo"] == 'PRIOc'){
+        }elseif(in_array($data["tipo_algoritmo"], ['PRIOc', 'PRIOp'])){
             for($i = 0; $i < $data["numeroProcessos"]; $i++){
                 $data['processos'][$i]["tempo_duracao"] = $request['tempo_duracao_' . $i];
                 $data['processos'][$i]["tempo_ingresso"] = $request['tempo_ingresso_' . $i];
@@ -155,7 +157,7 @@ class SimulatorController extends Controller
                         $tempoInicio = $tempoFim;
                         $tempoFim += $processo['tempo_duracao'];
                     }
-                    $diagramaTempoTeste['t'.$clock] = [
+                    $diagramaTempoTeste[$clock] = [
                         'quantidade_td' => $processo['tempo_duracao'],
                         'tempo_ingresso' => $processo['tempo_ingresso'],
                         'tempo_duracao' => $processo['tempo_duracao'],
@@ -202,22 +204,6 @@ class SimulatorController extends Controller
                     }
                 }
 
-                // if($tempoFim == $tempo_total_duracao){
-                //     break;
-                // }
-
-                // if($pula){
-                //     continue;
-                // }
-                
-
-                // if($i == 5){
-                //     dd($i,$filaAptos, $filaIngresso->where('tempo_ingresso', $i)->sortBy('tempo_ingresso')->toArray(), $diagramaTempoTeste);
-                // }
-
-                // if($i == 14){
-                //     dd('fila de aptos:>', $filaAptos, 'saindo do processador:>', $offProcessador, 'no processador:>',$onProcessador, 'tempo inicio', $tempoInicio, 'tempo fim', $tempoFim, $count);
-                // }
                 if($i > 0 && ($count % $data["tempo_quantum"] == 0) && ($onProcessador['tempo_duracao'] >= $data['tempo_quantum'] || isset($onProcessador['tempo_restante']) && $onProcessador['tempo_restante'] >= $data['tempo_quantum'])
                     || $i > 0 && ($onProcessador['tempo_duracao'] < $data['tempo_quantum'] || isset($onProcessador['tempo_restante']) && $onProcessador['tempo_restante'] < $data['tempo_quantum'])){
                     
@@ -268,22 +254,8 @@ class SimulatorController extends Controller
                     $onProcessador = array_shift($filaAptos);
                 }
 
-                // if(isset($onProcessador['tempo_restante'])){
-                //     for ($j=0; $j < ($onProcessador['tempo_restante'] >= $data['tempo_quantum'] ? $data['tempo_quantum'] : $onProcessador['tempo_restante']); $j++) { 
-                //         $tempoFim++;
-                //     }
-                // }else{
-                //     for ($j=0; $j < ($onProcessador['tempo_duracao'] >= $data['tempo_quantum'] ? $data['tempo_quantum'] : $onProcessador['tempo_duracao']); $j++) { 
-                //         $tempoFim++;
-                //     }
-                // }
-
                 $tempoFim++;
                 $count++;
-
-                // if($i == 2){
-                //     dd($filaAptos, $onProcessador, $offProcessador);
-                // }
             }
 
             $arrayDiagrama = $diagramaTempoTeste;
@@ -555,46 +527,8 @@ class SimulatorController extends Controller
                     $count = 0;
                     $tempoInicio = $tempoFim;
                 }
-                // elseif(!empty($last) && !empty($onProcessador)){
-                //     $onProcessador = array_shift($last);
-                // }
                 $count++;
                 $tempoFim++;
-
-                // $tempoInicio = $tempoFim;
-
-                // $onProcessador = array_shift($filaAptos);
-                // if(array_key_exists($i, $filaAptos) && $filaAptos[$i+1]['tempo_duracao'] > $onProcessador['tempo_inicio'] - $i){
-                //     if(!empty($onProcessador)){
-                //         for ($j=0; $j < $onProcessador['tempo_duracao']; $j++) { 
-                //             $tempoFim++;
-                //         }
-                        
-                //         $diagramaTempoTeste[$i] = [
-                //             'quantidade_td' => $onProcessador['tempo_duracao'],
-                //             'tempo_ingresso' => $onProcessador['tempo_ingresso'],
-                //             'tempo_duracao' => $onProcessador['tempo_duracao'],
-                //             'tempo_inicio' => $tempoInicio,
-                //             'tempo_fim' => $tempoFim,
-                //             'numero_processo' => $onProcessador['numero_processo']
-                //         ];
-                //     }
-                // }else{
-                //     if(!empty($onProcessador)){
-                //         for ($j=0; $j < $onProcessador['tempo_duracao']; $j++) { 
-                //             $tempoFim++;
-                //         }
-                        
-                //         $diagramaTempoTeste[$i] = [
-                //             'quantidade_td' => $onProcessador['tempo_duracao'],
-                //             'tempo_ingresso' => $onProcessador['tempo_ingresso'],
-                //             'tempo_duracao' => $onProcessador['tempo_duracao'],
-                //             'tempo_inicio' => $tempoInicio,
-                //             'tempo_fim' => $tempoFim,
-                //             'numero_processo' => $onProcessador['numero_processo']
-                //         ];
-                //     }
-                // }
             }
 
             $arrayDiagrama = $diagramaTempoTeste;
@@ -699,6 +633,155 @@ class SimulatorController extends Controller
                 }
             }
         }
+
+        // PRIOp
+        if($request->tipo_algoritmo == 'PRIOp'){
+            $filaIngresso = collect($processosBySortAsc);
+            $filaAptos = [];
+            $clock = 0; // tempo de ingresso dos processos na fila de pronto
+            $tempoFim = 0;
+            $tempoInicio = 0;
+            $onProcessador = [];
+            $last = $filaIngresso->sortByDesc('prioridade_processo')->toArray();
+            $first = [];
+            for ($i=0; $i <= $tempo_total_duracao; $i++) {
+
+                if($i == $menorTempoIngresso){
+                    $array = $filaIngresso->where('tempo_ingresso', $menorTempoIngresso)->sortByDesc('prioridade_processo')->toArray();
+                    if(count($array) > 1){
+                        $keys = $filaIngresso->where('tempo_ingresso', $menorTempoIngresso)->sortByDesc('prioridade_processo')->keys();
+                        $cnt = 0;
+                        foreach ($array as $key => $n) {
+                            $array[$key]['numero_processo'] = $keys[$cnt++];
+                        }
+
+                        $array = collect($array);
+                        $array = $array->sortByDesc('prioridade_processo')->toArray();
+
+                        foreach ($array as $item) {
+                            $filaAptos[] = $item;
+                        }
+
+                    }elseif(count($array) == 1){
+                        $array = $filaIngresso->sortByDesc('prioridade_processo')->toArray();
+                        $keys = $filaIngresso->sortByDesc('prioridade_processo')->keys();
+                        $cnt = 0;
+                        foreach ($array as $key => $n) {
+                            $array[$key]['numero_processo'] = $keys[$cnt++];
+                        }
+
+                        $filaAptos[] = array_shift($array);
+                    }
+                }else{
+                    $array = $filaIngresso->where('tempo_ingresso', $i)->sortByDesc('prioridade_processo')->toArray();
+                    if(count($array) > 1){
+                        $keys = $filaIngresso->where('tempo_ingresso', $i)->sortByDesc('prioridade_processo')->keys();
+                        $cnt = 0;
+                        foreach ($array as $key => $n) {
+                            $array[$key]['numero_processo'] = $keys[$cnt++];
+                        }
+
+                        $array = collect($array);
+                        $array = $array->sortByDesc('prioridade_processo')->toArray();
+
+                        foreach ($array as $item) {
+                            $filaAptos[] = $item;
+                        }
+
+                    }else{
+                        $array = array_shift($last);
+                        $filaAptos = collect($filaAptos);
+                        if(!empty($array) && $filaAptos->where('tempo_duracao', $array['tempo_duracao'])->where('tempo_ingresso', $array['tempo_ingresso'])->where('prioridade_processo', $array['prioridade_processo'])->count() == 0){
+                            $keys = $filaIngresso->where('tempo_ingresso', $array['tempo_ingresso'])->sortByDesc('prioridade_processo')->keys();
+                            $cnt = 0;
+
+                            foreach ($keys as $key => $k) {
+                                $array['numero_processo'] = $k;
+                            }
+
+                            $filaAptos[] = $array;
+                        }
+                    }
+                }
+            }
+
+            $tempoFim = 0;
+            $tempoInicio = 0;
+            $count = 0;
+            $tempoRestante = 0;
+            $last = [];
+            $filaAptos = $filaAptos->sortBy('tempo_ingresso')->toArray();
+            for ($i=0; $i <= $tempo_total_duracao; $i++) {
+
+                # pegar o primeiro processo da fila
+                if(empty($onProcessador)){
+                    $onProcessador = array_shift($filaAptos);
+                }
+                # calcula o tempo restante
+                if(isset($onProcessador['tempo_restante'])){
+                    $tempoRestante = $onProcessador['tempo_restante'] - $count;
+                }else{
+                    $tempoRestante = $onProcessador['tempo_duracao'] - $count;
+                }
+
+                // if($i == 2){
+                //     dd('fila aptos:', $filaAptos, 'no processador', $onProcessador, 'tempoRestante', $tempoRestante, 'last', $last, 'diagrama tempo', $diagramaTempoTeste, 'tempo inicio', $tempoInicio, 'tempo fim', $tempoFim);
+                // }
+
+                if($tempoRestante == 0 && $i > 0){
+                    
+                    $diagramaTempoTeste[$i] = [
+                        'quantidade_td' => $count,
+                        'tempo_ingresso' => $onProcessador['tempo_ingresso'],
+                        'tempo_duracao' => $onProcessador['tempo_duracao'],
+                        'tempo_inicio' => $tempoInicio,
+                        'tempo_fim' => $tempoFim,
+                        'numero_processo' => $onProcessador['numero_processo'],
+                        'tempo_restante' => $tempoRestante
+                    ];
+                    $tempoInicio = $tempoFim;
+                    $count = 0;
+                    if(!empty($last)){
+                        $onProcessador = array_shift($last);
+                    }else{
+                        $onProcessador = array_shift($filaAptos);
+                    }
+                }
+
+                # validar se o tempo duração do processo i+1 é < que o tempo restante do processo i
+                if(array_key_exists(0, $filaAptos) && $filaAptos[0]['prioridade_processo'] > $onProcessador['prioridade_processo'] && $filaAptos[0]['tempo_ingresso'] == $i 
+                    || array_key_exists(0, $filaAptos) && $filaAptos[0]['prioridade_processo'] > $onProcessador['prioridade_processo'] && $filaAptos[0]['tempo_ingresso'] < $i){
+                    # se for menor pausa o processo
+                    $onProcessador['tempo_restante'] = $tempoRestante;
+                    $last[] = $onProcessador;
+                    # monta o diagrama
+                    $diagramaTempoTeste[$i] = [
+                        'quantidade_td' => $count,
+                        'tempo_ingresso' => $onProcessador['tempo_ingresso'],
+                        'tempo_duracao' => $onProcessador['tempo_duracao'],
+                        'tempo_inicio' => $tempoInicio,
+                        'tempo_fim' => $tempoFim,
+                        'numero_processo' => $onProcessador['numero_processo'],
+                        'tempo_restante' => $tempoRestante
+                    ];
+                    #processo i+1 entra no processador
+                    $onProcessador = array_shift($filaAptos);
+                    # zera o count
+                    $count = 0;
+                    $tempoInicio = $tempoFim;
+                }elseif(array_key_exists(0, $filaAptos) && $onProcessador['tempo_ingresso'] != $filaAptos[0]['tempo_ingresso'] && $filaAptos[0]['tempo_ingresso'] < $i){
+                    $filaAptos[] = array_shift($filaAptos);
+                }
+                $count++;
+                $tempoFim++;
+            }
+
+            $arrayDiagrama = $diagramaTempoTeste;
+            $diagramaTempoTeste = [];
+            foreach ($arrayDiagrama as $key => $item) {
+                $diagramaTempoTeste[] = $item;
+            }
+        }
         
         $data['processosBySortAsc'] = $processosBySortAsc;
         $data['diagramaTempo'] = $diagramaTempo;
@@ -706,5 +789,12 @@ class SimulatorController extends Controller
         $data['tempo_total_duracao'] = $tempo_total_duracao;
 
         return view('simulador.resultado', $data);
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $data = $request->all();
+        $pdf = PDF::loadView('simulador.resultado',$data)->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        return $pdf->stream('resultado.pdf');
     }
 }

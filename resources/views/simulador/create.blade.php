@@ -107,7 +107,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (isset($tipo_algoritmo) && $tipo_algoritmo == 'PRIOc')
+                                        @if (isset($tipo_algoritmo) && in_array($tipo_algoritmo, ['PRIOc', 'PRIOp']))
                                         <div class="col-md-4">
                                             <h6 class="heading-small text-muted mb-4 mt-4">{{ __('Prioridade ' . $i + 1) }}</h6>
                                             <div class="pl-lg-4">

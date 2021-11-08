@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="{{ route('home') }}">
+        <a class="navbar-brand pt-0" href="{{ route('simulador.create') }}">
             <img src="{{ asset('argon') }}/img/logo.jpg" class="navbar-brand-img" alt="Logo sodap">
         </a>
         <!-- User -->
@@ -41,7 +41,7 @@
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="{{ route('home') }}">
+                        <a href="{{ route('simulador.create') }}">
                             <img src="{{ asset('argon') }}/img/logo.jpg">
                         </a>
                     </div>
@@ -55,15 +55,10 @@
             </div>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ route('simulador.create') }}">
                         <i class="ni ni-controller text-primary"></i> {{ __('Simulador') }}
                     </a>
-                </li>             
+                </li>
             </ul>
         </div>
     </div>
