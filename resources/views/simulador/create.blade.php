@@ -17,7 +17,7 @@
                                     <div class="pl-lg-4">
                                         <div class="form-group{{ $errors->has('numero_processos') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-name"></label>
-                                            <input type="text" name="numero_processos" id="input-numero_processos" class="form-control form-control-alternative{{ $errors->has('numero_processos') ? ' is-invalid' : '' }}" placeholder="{{ __('nº Processos') }}" value="{{ old('numero_processos', $numeroProcessos) }}" required autofocus>
+                                            <input type="text" name="numero_processos" id="input-numero_processos" class="form-control form-control-alternative{{ $errors->has('numero_processos') ? ' is-invalid' : '' }}" placeholder="0-7" value="" required autofocus>
                                             @if ($errors->has('numero_processos'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('numero_processos') }}</strong>
@@ -56,7 +56,7 @@
                         </form>
                         <form method="post" action="{{ route('simulador.store') }}" autocomplete="off">
                             @csrf
-                            @if ($numeroProcessos > 0 && $numeroProcessos <= 5)
+                            @if ($numeroProcessos > 0 && $numeroProcessos <= 7)
                                 <input type="hidden" name="numeroProcessos" value={{$numeroProcessos}}>
                                 <input type="hidden" name="tipo_algoritmo" value={{$tipo_algoritmo}}>
                                 @if (isset($tipo_algoritmo) && $tipo_algoritmo == 'RR')

@@ -787,6 +787,7 @@ class SimulatorController extends Controller
         $data['diagramaTempo'] = $diagramaTempo;
         $data['diagramaTempoTeste'] = $diagramaTempoTeste;
         $data['tempo_total_duracao'] = $tempo_total_duracao;
+        $data['screen'] = 1;
 
         return view('simulador.resultado', $data);
     }
@@ -794,7 +795,8 @@ class SimulatorController extends Controller
     public function exportPdf(Request $request)
     {
         $data = $request->all();
-        $pdf = PDF::loadView('simulador.resultado',$data)->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+        $data['screen'] = 0;
+        $pdf = PDF::loadView('simulador.pdf',$data)->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         return $pdf->stream('resultado.pdf');
     }
 }

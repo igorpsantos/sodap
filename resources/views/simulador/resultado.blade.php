@@ -14,10 +14,15 @@
         $data = session()->all();
     @endphp
     <div class="container-fluid mt--7 bg-gradient-default">
-        <div class="row justify-content-end">
+        <div class="row justify-content-end noprint">
             <div class="col-auto">
                 <div class="text-center">
-                    <a href="{{route('simulador.resultado.export', $data)}}" class="btn btn-primary mt-4 mb-4">{{ __('Exportar PDF') }}</a>
+                    <a href="{{route('simulador.create')}}" class="btn btn-secondary mt-4 mb-4">{{ __('Nova simulação') }}</a>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="text-center">
+                    <a href="{{route('simulador.resultado.export', $data)}}" class="btn btn-primary mt-4 mb-4" target="_blank">{{ __('Exportar PDF') }}</a>
                 </div>
             </div>
         </div>
@@ -188,55 +193,11 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
-                                <h4>Tempo médio de vida</h4>
-                                @php
-                                    ksort($diagramaTempoTeste);
-                                @endphp
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    <p>tv({{$key+1}}) = {{$item['tempo_fim']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_fim'] - $item['tempo_ingresso']}}</p>
-                                @endforeach
-                                @php
-                                    // TODO
-                                    // efetuar os calculos no controller
-                                    $somaMediaTempoVida = 0;
-                                    $somaMediaTempoIngresso = 0;
-                                    foreach($diagramaTempoTeste as $key => $item){
-                                        $somaMediaTempoVida += ($item['tempo_fim'] - $item['tempo_ingresso']);
-                                    }
-                                    foreach($diagramaTempoTeste as $key => $item){
-                                        $somaMediaTempoIngresso += ($item['tempo_inicio'] - $item['tempo_ingresso']);
-                                    }
-                                    $resultMediaTempoIngresso = $somaMediaTempoIngresso / $numeroProcessos;
-                                    $resultMediaTempoVida = $somaMediaTempoVida / $numeroProcessos;
-                                @endphp
-                                <p>tv = (
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    @if ($loop->first)
-                                    {{$item['tempo_fim'] - $item['tempo_ingresso']}} +
-                                    @else
-                                    {{$item['tempo_fim'] - $item['tempo_ingresso']}} +
-                                    @endif
-                                @endforeach
-                                    ) / {{$numeroProcessos}} = {{$resultMediaTempoVida}}udt
-                                </p>
-                            </div>
-                            <div class="col-md-4">
-                                <h4>Tempo médio de ingresso</h4>
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    <p>ti({{$key+1}}) = {{$item['tempo_inicio']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_inicio'] - $item['tempo_ingresso']}}</p>
-                                @endforeach
-                                <p>tv = (
-                                    @foreach ($diagramaTempoTeste as $key => $item)
-                                        @if ($loop->first)
-                                        {{$item['tempo_inicio'] - $item['tempo_ingresso']}} +
-                                        @else
-                                        {{$item['tempo_inicio'] - $item['tempo_ingresso']}} +
-                                        @endif
-                                    @endforeach
-                                        ) / {{$numeroProcessos}} = {{$resultMediaTempoIngresso}}udt
-                                </p>
-                            </div>
+                            @if (in_array($tipo_algoritmo,['FIFO','PRIOc']))
+                                @include('simulador.cooperativo')                                
+                            @else
+                                @include('simulador.preemptivo')                                
+                            @endif
                         </div>
                     </div>
                 </div>
