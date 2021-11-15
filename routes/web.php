@@ -19,7 +19,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 // home
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // simulador
 // Route::get('simulador/index', 'App\Http\Controllers\SimulatorController@index')->name('simulador.index');
@@ -28,3 +28,4 @@ Route::post('simulador/store', 'App\Http\Controllers\SimulatorController@store')
 Route::get('simulador/resultado', 'App\Http\Controllers\SimulatorController@resultado')->name('simulador.resultado');
 
 Route::get('manual/manual', 'App\Http\Controllers\ManualController@index')->name('manual.manual');
+Route::get('simulador/resultado/pdf', 'App\Http\Controllers\SimulatorController@exportPdf')->name('simulador.resultado.export');

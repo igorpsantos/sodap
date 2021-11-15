@@ -2,7 +2,30 @@
 
 @section('content')
     @include('layouts.headers.cards')
+    @php
+        // guarda na sessão as informações
+        session([
+            'diagramaTempoTeste' => $diagramaTempoTeste,
+            'tipo_algoritmo' => $tipo_algoritmo,
+            'numeroProcessos' => $numeroProcessos,
+            'processos' => $processos,
+            'tempo_total_duracao' => $tempo_total_duracao
+        ]);
+        $data = session()->all();
+    @endphp
     <div class="container-fluid mt--7 bg-gradient-default">
+        <div class="row justify-content-end noprint">
+            <div class="col-auto">
+                <div class="text-center">
+                    <a href="{{route('simulador.create')}}" class="btn btn-secondary mt-4 mb-4">{{ __('Nova simulação') }}</a>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="text-center">
+                    <a href="{{route('simulador.resultado.export', $data)}}" class="btn btn-primary mt-4 mb-4" target="_blank">{{ __('Exportar PDF') }}</a>
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-center mb-5">
             <div class="col-xl-8 order-xl-1">
                 <div class="card bg-secondary shadow">
@@ -16,16 +39,22 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Processos</th>
-                                    <th scope="col">Duração de Execução</th>
                                     <th scope="col">Tempo de ingresso</th>
+                                    <th scope="col">Duração de Execução</th>
+                                    @if (in_array($tipo_algoritmo, ['PRIOc', 'PRIOp']))
+                                    <th scope="col">Prioridade</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($processos as $key => $item)
                                 <tr>
-                                    <th scope="row">{{$key}}</th>
-                                    <td>{{$item['tempo_duracao']}}</td>
+                                    <th scope="row">T{{$key + 1}}</th>
                                     <td>{{$item['tempo_ingresso']}}</td>
+                                    <td>{{$item['tempo_duracao']}}</td>
+                                    @if (isset($item['prioridade_processo']))
+                                        <td>{{$item['prioridade_processo']}}</td>
+                                    @endif
                                 </tr>                                 
                                 @endforeach
                             </tbody>
@@ -44,15 +73,18 @@
                         <table class="table table-bordered table-responsive">
                             <thead>
                                 @php
-                                    krsort($processosBySortAsc)
+                                    foreach ($diagramaTempoTeste as $key => $item) {
+                                        $processosSortByProcessado[] = $item['numero_processo'];
+                                    }
+                                    krsort($processosSortByProcessado);
                                 @endphp
                                 <tr>
-                                    @foreach ($processosBySortAsc as $key => $item)
+                                    @foreach ($processosSortByProcessado as $key => $item)
                                         @if (!$loop->last)
-                                        <th scope="col">{{$key}}</th>
+                                        <th scope="col">T{{$item+1}}</th>
                                         @endif
                                         @if ($loop->last)
-                                        <th scope="col">{{$key}}</th>
+                                        <th scope="col">T{{$item+1}}</th>
                                         <th scope="col"> --------> PROCESSADOR</th>
                                         @endif                               
                                     @endforeach
@@ -83,29 +115,53 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php
-                                    krsort($diagramaTempoTeste);
-                                @endphp
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    <tr>
-                                        <th scope="row">{{$key}}</th>
-                                        @if ($item['tempo_ingresso'] == 0 && $item['tempo_inicio'] == 0)
-                                            @for ($i = 0; $i < $item['quantidade_td']; $i++)
-                                            <td style="background-color: blue"><span style="color: white">{{$key}}</span></td>                                                
-                                            @endfor
-                                        @else
-                                            @for ($i = 0; $i < $item['tempo_fim']; $i++)
-                                                @if ($i == $item['tempo_ingresso'])
-                                                    <td style="background-color: red"><span style="color: white">I</span></td>
-                                                @elseif ($i >= $item['tempo_inicio'] && $i < $item['tempo_fim'])
-                                                    <td style="background-color: blue"><span style="color: white">{{$key}}</span></td>                                                        
-                                                @else
-                                                    <td></td>
+                                @if (isset($tipo_algoritmo) && $tipo_algoritmo == 'FIFO')
+                                    @foreach ($diagramaTempoTeste as $key => $item)
+                                        <tr>
+                                            <th scope="row">{{$key+1}}</th>
+                                            @if ($item['tempo_ingresso'] == 0 && $item['tempo_inicio'] == 0)
+                                                @for ($i = 0; $i < $item['quantidade_td']; $i++)
+                                                <td style="background-color: blue"><span style="color: white">T{{$key+1}}</span></td>                                                
+                                                @endfor
+                                            @else
+                                                @for ($i = 0; $i < $item['tempo_fim']; $i++)
+                                                    @if ($i == $item['tempo_ingresso'])
+                                                        <td style="background-color: red"><span style="color: white">I</span></td>
+                                                    @elseif ($i >= $item['tempo_inicio'] && $i < $item['tempo_fim'])
+                                                        <td style="background-color: blue"><span style="color: white">T{{$key+1}}</span></td>                                                        
+                                                    @else
+                                                        <td></td>
+                                                    @endif
+                                                @endfor
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                @elseif(isset($tipo_algoritmo) && in_array($tipo_algoritmo,['RR','SJF', 'SRTF','PRIOc','PRIOp']))
+                                    @for($i = 0; $i < $numeroProcessos; $i++)
+                                        @php
+                                            $tempoAnterior = 0;
+                                        @endphp
+                                        <tr>
+                                            <th scope="row">T{{$i+1}}</th>
+                                            @for ($j = 0; $j < count($diagramaTempoTeste); $j++)
+                                                @if ($diagramaTempoTeste[$j]['numero_processo'] == $i)
+                                                    @for ($k = $tempoAnterior; $k < $diagramaTempoTeste[$j]['tempo_fim']; $k++)
+                                                        @if ($k == $diagramaTempoTeste[$j]['tempo_ingresso'] && $k != $diagramaTempoTeste[$j]['tempo_inicio'] && $diagramaTempoTeste[$j]['tempo_ingresso'] > 0)
+                                                            <td style="background-color: red"><span style="color: white">I</span></td>
+                                                        @elseif ($k >= $diagramaTempoTeste[$j]['tempo_inicio'] && $k < $diagramaTempoTeste[$j]['tempo_fim'])
+                                                            <td style="background-color: blue"><span style="color: white">T{{$i+1}}</span></td>
+                                                        @else
+                                                            <td></td>                                                     
+                                                        @endif
+                                                    @endfor
+                                                    @php
+                                                        $tempoAnterior = $diagramaTempoTeste[$j]['tempo_fim'];
+                                                    @endphp
                                                 @endif
                                             @endfor
-                                        @endif
-                                    </tr>
-                                @endforeach
+                                        </tr>
+                                    @endfor                                   
+                                @endif
                             </tbody>
                         </table>
                         <table class="table table-xl table-bordered table-responsive mt-5">
@@ -137,55 +193,11 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">
-                                <h4>Tempo médio de vida</h4>
-                                @php
-                                    ksort($diagramaTempoTeste);
-                                @endphp
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    <p>tv({{$key}}) = {{$item['tempo_fim']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_fim'] - $item['tempo_ingresso']}}</p>
-                                @endforeach
-                                @php
-                                    // TODO
-                                    // efetuar os calculos no controller
-                                    $somaMediaTempoVida = 0;
-                                    $somaMediaTempoIngresso = 0;
-                                    foreach($diagramaTempoTeste as $key => $item){
-                                        $somaMediaTempoVida += ($item['tempo_fim'] - $item['tempo_ingresso']);
-                                    }
-                                    foreach($diagramaTempoTeste as $key => $item){
-                                        $somaMediaTempoIngresso += ($item['tempo_inicio'] - $item['tempo_ingresso']);
-                                    }
-                                    $resultMediaTempoIngresso = $somaMediaTempoIngresso / count($diagramaTempoTeste);
-                                    $resultMediaTempoVida = $somaMediaTempoVida / count($diagramaTempoTeste);
-                                @endphp
-                                <p>tv = (
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    @if ($loop->first)
-                                    {{$item['tempo_fim'] - $item['tempo_ingresso']}} +
-                                    @else
-                                    {{$item['tempo_fim'] - $item['tempo_ingresso']}} +
-                                    @endif
-                                @endforeach
-                                    ) / {{count($diagramaTempoTeste)}} = {{$resultMediaTempoVida}}udt
-                                </p>
-                            </div>
-                            <div class="col-md-4">
-                                <h4>Tempo médio de ingresso</h4>
-                                @foreach ($diagramaTempoTeste as $key => $item)
-                                    <p>ti({{$key}}) = {{$item['tempo_inicio']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_inicio'] - $item['tempo_ingresso']}}</p>
-                                @endforeach
-                                <p>tv = (
-                                    @foreach ($diagramaTempoTeste as $key => $item)
-                                        @if ($loop->first)
-                                        {{$item['tempo_inicio'] - $item['tempo_ingresso']}} +
-                                        @else
-                                        {{$item['tempo_inicio'] - $item['tempo_ingresso']}} +
-                                        @endif
-                                    @endforeach
-                                        ) / {{count($diagramaTempoTeste)}} = {{$resultMediaTempoIngresso}}udt
-                                </p>
-                            </div>
+                            @if (in_array($tipo_algoritmo,['FIFO','PRIOc']))
+                                @include('simulador.cooperativo')                                
+                            @else
+                                @include('simulador.preemptivo')                                
+                            @endif
                         </div>
                     </div>
                 </div>

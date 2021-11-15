@@ -19,7 +19,7 @@
     </div>
 
     <div class="container mt--10 pb-5">
-        <p class="text-white text-justify lead">O objetivo geral deste simulador é demonstrar o funcionamento dos algoritmos de escalonamento de processos <strong>First-in, First-out (FIFO)</strong> , <strong>Round Robin (RR)</strong> , <strong>Shortest Job First (SJF)</strong> , <strong>Shortest Job Remaining Time First (SJRT)</strong> e <strong>Escalonamento por prioridades (PRIOc, PRIOp e PRIOd)</strong>, tal que o mesmo seja de fácil acesso tanto por alunos quanto por professores, os dados obtidos com as demonstrações do funcionamento dos algoritmos poderá ser visualizado através de gráficos ilustrativos e interativos.</p>
+        <p class="text-white text-justify lead">O objetivo geral deste simulador é demonstrar o funcionamento dos algoritmos de escalonamento de processos <strong>First-in, First-out (FIFO)</strong> , <strong>Round Robin (RR)</strong> , <strong>Shortest Job First (SJF)</strong> , <strong>Shortest Job Remaining Time First (SJRT)</strong> e <strong>Escalonamento por prioridades (PRIOc, PRIOp)</strong>, tal que o mesmo seja de fácil acesso tanto por alunos quanto por professores, os dados obtidos com as demonstrações do funcionamento dos algoritmos poderá ser visualizado através de gráficos ilustrativos.</p>
         <p class="text-white text-left"><strong>Autores:</strong> Igor Pereira e Luis Aurelio.</p>
     </div>
 @endsection
