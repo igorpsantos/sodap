@@ -26,3 +26,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('simulador/create', 'App\Http\Controllers\SimulatorController@create')->name('simulador.create');
 Route::post('simulador/store', 'App\Http\Controllers\SimulatorController@store')->name('simulador.store');
 Route::get('simulador/resultado', 'App\Http\Controllers\SimulatorController@resultado')->name('simulador.resultado');
+
+Route::get('manual/manual', 'App\Http\Controllers\ManualController@index')->name('manual.manual');

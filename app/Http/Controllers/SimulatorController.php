@@ -203,6 +203,10 @@ class SimulatorController extends Controller
             $offProcessador['tempo_restante'] = 0;
             $pula = false;
             for ($i=0; $i <= $tempo_total_duracao; $i++) { 
+
+                if($tempoFim == $tempo_total_duracao)
+                    break;
+                    
                 if($i == $menorTempoIngresso){
                     $array = $filaIngresso->where('tempo_ingresso', $menorTempoIngresso)->sortBy('tempo_ingresso')->toArray();
                     if(count($array) > 0){
@@ -230,8 +234,8 @@ class SimulatorController extends Controller
                 // }
                 
 
-                if($i == 3){
-                    dd($tempoInicio, $tempoFim, $diagramaTempoTeste, $onProcessador, $offProcessador, $filaAptos, $filaIngresso->where('tempo_ingresso', $i)->sortBy('tempo_ingresso')->toArray());
+                if($i == 9){
+                    dd($tempoInicio, $tempoFim,  $onProcessador, $offProcessador, $filaAptos, $filaIngresso->where('tempo_ingresso', $i)->sortBy('tempo_ingresso')->toArray());
                 }
 
                 $tempoInicio = $tempoFim;
@@ -283,11 +287,11 @@ class SimulatorController extends Controller
                 $offProcessador = $onProcessador;
                 $offProcessador['tempo_restante'] = $tempoRestante;
 
-                if($i == 5){
+                /*if($i == 5){
                     dd($tempoInicio, $tempoFim, $diagramaTempoTeste, $onProcessador, $offProcessador, $filaAptos);
-                }
+                }*/
             }
-            dd($diagramaTempoTeste);
+            //dd($diagramaTempoTeste);
         }
 
         // SJF

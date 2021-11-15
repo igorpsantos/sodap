@@ -63,7 +63,13 @@
                     <a class="nav-link" href="{{ route('simulador.create') }}">
                         <i class="ni ni-controller text-primary"></i> {{ __('Simulador') }}
                     </a>
-                </li>             
+                </li>   
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('manual.manual') }}">
+                        <i class="ni ni-single-02 text-primary"></i> {{ __('Manual do Usuário') }}
+                    </a>
+                </li> 
             </ul>
         </div>
     </div>
