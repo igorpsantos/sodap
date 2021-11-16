@@ -4,7 +4,7 @@
         ksort($diagramaTempoTeste);
     @endphp
     @foreach ($diagramaTempoTeste as $key => $item)
-        <p>tv({{$key+1}}) = {{$item['tempo_fim']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_fim'] - $item['tempo_ingresso']}}</p>
+        <p>tv({{$item['numero_processo']+1}}) = {{$item['tempo_fim']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_fim'] - $item['tempo_ingresso']}}</p>
     @endforeach
     @php
         // TODO
@@ -36,7 +36,7 @@
 <div class="col-md-4">
     <h4>Tempo médio de ingresso</h4>
     @foreach ($diagramaTempoTeste as $key => $item)
-        <p>ti({{$key+1}}) = {{$item['tempo_inicio']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_inicio'] - $item['tempo_ingresso']}}</p>
+        <p>ti({{$item['numero_processo']+1}}) = {{$item['tempo_inicio']}} - {{$item['tempo_ingresso']}} = {{$item['tempo_inicio'] - $item['tempo_ingresso']}}</p>
     @endforeach
     <p>tv = (
         @foreach ($diagramaTempoTeste as $key => $item)

@@ -115,7 +115,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (isset($tipo_algoritmo) && $tipo_algoritmo == 'FIFO')
+                                @if (isset($tipo_algoritmo) && in_array($tipo_algoritmo, ['FIFO']))
                                     @foreach ($diagramaTempoTeste as $key => $item)
                                         <tr>
                                             <th scope="row">{{$key+1}}</th>
@@ -136,7 +136,7 @@
                                             @endif
                                         </tr>
                                     @endforeach
-                                @elseif(isset($tipo_algoritmo) && in_array($tipo_algoritmo,['RR','SJF', 'SRTF','PRIOc','PRIOp']))
+                                @elseif(isset($tipo_algoritmo) && in_array($tipo_algoritmo,['RR','SJF', 'SRTF', 'PRIOc', 'PRIOp']))
                                     @for($i = 0; $i < $numeroProcessos; $i++)
                                         @php
                                             $tempoAnterior = 0;
