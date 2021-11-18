@@ -94,14 +94,14 @@
                                         <th scope="row">{{$key+1}}</th>
                                         @if ($item['tempo_ingresso'] == 0 && $item['tempo_inicio'] == 0)
                                             @for ($i = 0; $i < $item['quantidade_td']; $i++)
-                                            <td style="background-color: blue"><span style="color: white">T{{$key+1}}</span></td>                                                
+                                            <td style="background-color: {{$item['processo_cor']}}"><span style="color: white">T{{$key+1}}</span></td>                                                
                                             @endfor
                                         @else
                                             @for ($i = 0; $i < $item['tempo_fim']; $i++)
                                                 @if ($i == $item['tempo_ingresso'])
                                                     <td style="background-color: red"><span style="color: white">I</span></td>
                                                 @elseif ($i >= $item['tempo_inicio'] && $i < $item['tempo_fim'])
-                                                    <td style="background-color: blue"><span style="color: white">T{{$key+1}}</span></td>                                                        
+                                                    <td style="background-color: {{$item['processo_cor']}}"><span style="color: white">T{{$key+1}}</span></td>                                                        
                                                 @else
                                                     <td></td>
                                                 @endif
@@ -122,7 +122,7 @@
                                                     @if ($k == $diagramaTempoTeste[$j]['tempo_ingresso'] && $k != $diagramaTempoTeste[$j]['tempo_inicio'] && $diagramaTempoTeste[$j]['tempo_ingresso'] > 0)
                                                         <td style="background-color: red"><span style="color: white">I</span></td>
                                                     @elseif ($k >= $diagramaTempoTeste[$j]['tempo_inicio'] && $k < $diagramaTempoTeste[$j]['tempo_fim'])
-                                                        <td style="background-color: blue"><span style="color: white">T{{$i+1}}</span></td>
+                                                        <td style="background-color: {{$diagramaTempoTeste[$j]['processo_cor']}}"><span style="color: white">T{{$i+1}}</span></td>
                                                     @else
                                                         <td></td>                                                     
                                                     @endif
@@ -141,10 +141,6 @@
                         <thead>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row" style="background-color: blue"></th>
-                                <td >Tarefa em execução</td>
-                            </tr>
                             <tr>
                                 <th scope="row" style="background-color: red"><span style="color: white">I</span></th>
                                 <td >Tarefa ingressou</td>

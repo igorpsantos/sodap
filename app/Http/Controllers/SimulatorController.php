@@ -145,6 +145,14 @@ class SimulatorController extends Controller
         $diagramaTempo = [];
         $diagramaTempoTeste = [];
 
+        $processosCor = [
+            '#316ad0',
+            '#e4e32b',
+            '#9650cb',
+            '#4bda3d',
+            '#e0323c'
+        ];
+
         // fifo
         if($request->tipo_algoritmo == 'FIFO'){
             $filaIngresso = collect($processosBySortAsc);
@@ -242,7 +250,8 @@ class SimulatorController extends Controller
                             'tempo_duracao' => $onProcessador['tempo_duracao'],
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
-                            'numero_processo' => $onProcessador['numero_processo']
+                            'numero_processo' => $onProcessador['numero_processo'],
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
                         $clock = 0;
                         $onProcessador = [];
@@ -364,7 +373,8 @@ class SimulatorController extends Controller
                                 'tempo_inicio' => $tempoInicio,
                                 'tempo_fim' => $tempoFim,
                                 'tempo_restante' => $tempoRestante,
-                                'numero_processo' => $onProcessador['numero_processo']
+                                'numero_processo' => $onProcessador['numero_processo'],
+                                'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                             ];
                         }else{
                             $diagramaTempoTeste[$i] = [
@@ -374,7 +384,8 @@ class SimulatorController extends Controller
                                 'tempo_inicio' => $tempoInicio,
                                 'tempo_fim' => $tempoFim,
                                 'tempo_restante' => $tempoRestante,
-                                'numero_processo' => $onProcessador['numero_processo']
+                                'numero_processo' => $onProcessador['numero_processo'],
+                                'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                             ];
                         }
 
@@ -507,7 +518,8 @@ class SimulatorController extends Controller
                             'tempo_duracao' => $onProcessador['tempo_duracao'],
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
-                            'numero_processo' => $onProcessador['numero_processo']
+                            'numero_processo' => $onProcessador['numero_processo'],
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
                         $clock = 0;
                         $onProcessador = [];
@@ -649,7 +661,8 @@ class SimulatorController extends Controller
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
                             'numero_processo' => $onProcessador['numero_processo'],
-                            'tempo_restante' => $tempoRestante
+                            'tempo_restante' => $tempoRestante,
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
                         $count = 0;
 
@@ -688,7 +701,8 @@ class SimulatorController extends Controller
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
                             'numero_processo' => $onProcessador['numero_processo'],
-                            'tempo_restante' => $tempoRestante
+                            'tempo_restante' => $tempoRestante,
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
 
                         // if($i == 3){
@@ -810,7 +824,8 @@ class SimulatorController extends Controller
                             'tempo_duracao' => $onProcessador['tempo_duracao'],
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
-                            'numero_processo' => $onProcessador['numero_processo']
+                            'numero_processo' => $onProcessador['numero_processo'],
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
                         $clock = 0;
                         $onProcessador = [];
@@ -955,7 +970,8 @@ class SimulatorController extends Controller
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
                             'numero_processo' => $onProcessador['numero_processo'],
-                            'tempo_restante' => $tempoRestante
+                            'tempo_restante' => $tempoRestante,
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
                         $count = 0;
 
@@ -994,7 +1010,8 @@ class SimulatorController extends Controller
                             'tempo_inicio' => $tempoInicio,
                             'tempo_fim' => $tempoFim,
                             'numero_processo' => $onProcessador['numero_processo'],
-                            'tempo_restante' => $tempoRestante
+                            'tempo_restante' => $tempoRestante,
+                            'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
 
                         // if($i == 3){
