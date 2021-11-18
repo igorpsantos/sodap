@@ -150,7 +150,9 @@ class SimulatorController extends Controller
             '#e4e32b',
             '#9650cb',
             '#4bda3d',
-            '#e0323c'
+            '#e0323c',
+            '#FF8C00',
+            '#B0E0E6'
         ];
 
         // fifo
