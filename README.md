@@ -1,4 +1,4 @@
-<p align="center" style="font-size: 18px;" >##Simulador Online de Algoritmos Para Escalonamento de Processos</p>
+<p align="center" >## Simulador Online de Algoritmos Para Escalonamento de Processos</p>
 
 ## Sobre o simulador
 
