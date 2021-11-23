@@ -61,10 +61,10 @@ class SimulatorController extends Controller
         $validates = [];
         if($request->has('numeroProcessos')){
             for($i = 0; $i < $request->numeroProcessos; $i++){
-                $validates["tempo_ingresso_" . $i] = 'required|numeric|min:0|max:10';
-                $validates["tempo_duracao_" . $i] = 'required|numeric|min:0|max:10';
+                $validates["tempo_ingresso_" . $i] = 'required|numeric|min:0|max:7';
+                $validates["tempo_duracao_" . $i] = 'required|numeric|min:0|max:7';
                 if(in_array($request->tipo_algoritmo, ['PRIOc', 'PRIOp'])){
-                    $validates["prioridade_processo_" . $i] = 'sometimes|required|numeric|min:0|max:10';
+                    $validates["prioridade_processo_" . $i] = 'sometimes|required|numeric|min:0|max:15';
                 }
             }
             $validates['numeroProcessos'] = 'required|numeric|min:1|max:7';
