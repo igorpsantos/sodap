@@ -688,8 +688,8 @@ class SimulatorController extends Controller
                     $filaProntos = $filaProntos->sortBy('tempo_duracao')->toArray();
     
                     # validar se o tempo duração do processo i+1 é < que o tempo restante do processo i
-                    if(array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['tempo_duracao']) && $filaProntos[array_key_first($filaProntos)]['tempo_duracao'] < $tempoRestante && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] == $i 
-                        || array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['tempo_duracao']) && $filaProntos[array_key_first($filaProntos)]['tempo_duracao'] < $tempoRestante && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] < $i){
+                    if(array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['tempo_duracao']) && $filaProntos[array_key_first($filaProntos)]['tempo_duracao'] < $tempoRestante && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] == $i && $tempoRestante > 0
+                        || array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['tempo_duracao']) && $filaProntos[array_key_first($filaProntos)]['tempo_duracao'] < $tempoRestante && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] < $i && $tempoRestante > 0){
                         # se for menor pausa o processo
                         $onProcessador['tempo_restante'] = $tempoRestante;
                         $last[] = $onProcessador;
@@ -958,13 +958,14 @@ class SimulatorController extends Controller
                     $tempoRestante = $onProcessador['tempo_duracao'] - $count;
                 }
 
-                // if($i == 6){
+                // if($i == 13){
                 //     dd($filaProntos, $onProcessador, $tempoInicio, $tempoFim, $tempoRestante, $diagramaTempoTeste, $count, $last);
                 // }
 
                 if(!empty($onProcessador)){
                     if($tempoRestante == 0 && $i > 0){
                         $tempoFim = $tempoInicio + $count;
+                        
                         $diagramaTempoTeste[$i] = [
                             'quantidade_td' => $count,
                             'tempo_ingresso' => $onProcessador['tempo_ingresso'],
@@ -975,6 +976,7 @@ class SimulatorController extends Controller
                             'tempo_restante' => $tempoRestante,
                             'processo_cor' => $processosCor[$onProcessador['numero_processo']]
                         ];
+
                         $count = 0;
 
                         // reordena a fila de prontos
@@ -990,6 +992,10 @@ class SimulatorController extends Controller
                         }else{
                             $onProcessador = array_shift($filaProntos);
                         }
+
+                        // if($i == 13){
+                        //     dd($filaProntos, $onProcessador, $tempoInicio, $tempoFim, $tempoRestante, $diagramaTempoTeste, $count, $last);
+                        // }
                     }
 
                     // reordena a fila de prontos
@@ -997,12 +1003,16 @@ class SimulatorController extends Controller
                     $filaProntos = $filaProntos->sortByDesc('prioridade_processo')->toArray();
     
                     # validar se o tempo duração do processo i+1 é < que o tempo restante do processo i
-                    if(array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['prioridade_processo']) && $filaProntos[array_key_first($filaProntos)]['prioridade_processo'] > $onProcessador['prioridade_processo'] && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] == $i 
-                        || array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['prioridade_processo']) && $filaProntos[array_key_first($filaProntos)]['prioridade_processo'] > $onProcessador['prioridade_processo'] && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] < $i){
+                    if(array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['prioridade_processo']) && $filaProntos[array_key_first($filaProntos)]['prioridade_processo'] > $onProcessador['prioridade_processo'] && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] == $i && $tempoRestante > 0
+                        || array_key_exists(array_key_first($filaProntos), $filaProntos) && isset($filaProntos[array_key_first($filaProntos)]['prioridade_processo']) && $filaProntos[array_key_first($filaProntos)]['prioridade_processo'] > $onProcessador['prioridade_processo'] && $filaProntos[array_key_first($filaProntos)]['tempo_ingresso'] < $i && $tempoRestante > 0){
                         # se for menor pausa o processo
                         $onProcessador['tempo_restante'] = $tempoRestante;
                         $last[] = $onProcessador;
                         $tempoFim = $tempoInicio + $count;
+
+                        // if($i == 13){
+                        //     dd($filaProntos, $onProcessador, $tempoInicio, $tempoFim, $tempoRestante, $diagramaTempoTeste, $count, $last);
+                        // }
 
                         # monta o diagrama
                         $diagramaTempoTeste[$i] = [
