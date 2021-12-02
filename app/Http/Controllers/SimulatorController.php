@@ -342,6 +342,11 @@ class SimulatorController extends Controller
                     $first = false;
                 }
 
+                // retira o primeiro processo da fila
+                if($i > $menorTempoIngresso && empty($onProcessador)){
+                    $onProcessador = array_shift($filaProntos);
+                }
+
                 // ajusta o tempo inicio de acordo com o menor tempo de ingresso
                 if($i == $menorTempoIngresso){
                     $tempoInicio =  $onProcessador['tempo_ingresso'];
@@ -350,6 +355,10 @@ class SimulatorController extends Controller
                 }elseif($i > $menorTempoIngresso && isset($onProcessador['tempo_ingresso']) && $tempoFim < $onProcessador['tempo_ingresso']){
                     $tempoInicio = $onProcessador['tempo_ingresso'];
                 }
+
+                // if($i == 4){
+                //     dd($filaProntos, $clock, $onProcessador, $tempoInicio, $tempoFim, $diagramaTempoTeste);
+                // }
 
                 if(!empty($onProcessador)){
                     if($onProcessador['tempo_duracao'] >= $data['tempo_quantum'] && $clock == $data['tempo_quantum'] && !isset($onProcessador['tempo_restante'])
@@ -398,6 +407,10 @@ class SimulatorController extends Controller
                         }
 
                         $onProcessador = array_shift($filaProntos);
+
+                        // if($i == 1){
+                        //     dd($filaProntos, $clock, $onProcessador, $tempoInicio, $tempoFim, $tempoRestante, $diagramaTempoTeste);
+                        // }
                     }
                     $clock++;
                 }
