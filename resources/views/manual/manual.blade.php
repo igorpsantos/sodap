@@ -10,7 +10,7 @@
                     <div class="card-body" style="text-align: center;">
                         <p class="card-text">O manual do aplicação, é o arquivo que contêm passo a passo sobre como deve ser utilizado a aplicação.</p>
                         <p class="card-text">Para realizar o download do manual, clique no link abaixo:</p>
-                        <p class="card-text"> <a href='https://docs.google.com/uc?export=download&id=1geqa1YrioLUhH-Bl45nHNcjyOpbx1Mjk'>Download</a> </p>
+                        <p class="card-text"> <a href='https://docs.google.com/uc?export=download&id=1VPlVkN7osGNuOOD2VsOB6wBRPiU5MAur'>Download</a> </p>
                     </div>
                 </div>
             </div>
